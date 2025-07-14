@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PINGPANGBALL</title>
+    <style>
+        @font-face {
+            font-family: 'Nixiebold-slim';
+            src: url('Nixiebold-slim.woff2') format('woff2');
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgb(63, 63, 63);
+            overflow: hidden;
+
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('img/display_a.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(15px);
+            /* ✅ 直接模糊图片本身 */
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+
+
+        .headContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            gap: 5vh 10vh;
+            margin-top: 10vh;
+        }
+
+        .head {
+            width: 40vh;
+            height: 50vh;
+            border-radius: 60% 60% 50% 50%;
+            position: relative;
+            box-shadow: inset 0.5vh 2vh 0 #97846b2c, inset -1.5vh -2.5vh 0 #97846b2c;
+            background: radial-gradient(circle at 40% 30%, #fddbb0, #fddbb0, #c0a787);
+            transform-origin: center center;
+            transform: scale(0.64);
+            animation: headNod 5s ease-in-out infinite;
+        }
+
+
+        @keyframes headNod {
+            0% {
+                transform: scale(0.64) rotate(0deg);
+            }
+
+            25% {
+                transform: scale(0.64) rotate(-2deg);
+            }
+
+            50% {
+                transform: scale(0.64) rotate(2deg);
+            }
+
+            75% {
+                transform: scale(0.64) rotate(-2deg);
+            }
+
+            100% {
+                transform: scale(0.64) rotate(0deg);
+            }
+        }
+
+
+        .head-surprised {
+            animation: headShock 1s ease;
+        }
+
+        @keyframes headShock {
+            0% {
+                transform: scale(1);
+            }
+
+            30% {
+                transform: scale(1.01) rotate(-1deg);
+            }
+
+            60% {
+                transform: scale(0.99) rotate(1deg);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hair-left,
+        .hair-right {
+            position: absolute;
+            top: -3vh;
+            height: 12vh;
+            background: linear-gradient(to bottom, #3f3f3f, #000000, #1b1b1b, #3d3d3d);
+        }
+
+        .hair-left {
+            width: 27vh;
+            left: 0;
+            border-radius: 60% 0 0 0;
+        }
+
+        .hair-right {
+            width: 12vh;
+            right: -0.75vh;
+            border-radius: 0 60% 0 0;
+        }
+
+        .hair-puff {
+            animation: puff 0.4s ease;
+        }
+
+        @keyframes puff {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .eye {
+            width: 12vh;
+            height: 12vh;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 18vh;
+            box-shadow: 0 0 0.6vh #333;
+        }
+
+        .eye-crazy {
+            animation: eyeCrazy 0.2s ease;
+            box-shadow: 0 0 1.2vh #c0b19f;
+        }
+
+        @keyframes eyeCrazy {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .eye.left {
+            left: 6vh;
+        }
+
+        .eye.right {
+            right: 6vh;
+        }
+
+        .pupil {
+            width: 4vh;
+            height: 4vh;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 4.5vh;
+            left: 4.5vh;
+            transition: transform 0.05s linear;
+            box-shadow: 0 0 0 0.8vh rgb(65, 65, 65), 0 0 0 0.5vh #000, inset 1.5vh 2vh 0 rgb(116, 116, 116);
+        }
+
+        .pupilw {
+            position: absolute;
+            top: 1vh;
+            left: 30%;
+            transform: translate(-50%);
+            width: 2vh;
+            height: 2vh;
+            background: white;
+            border-radius: 50%;
+            border: 0.5vh solid black;
+        }
+
+        .brow {
+            width: 14vh;
+            height: 7vh;
+            background: linear-gradient(to bottom, #3f3f3f, #3d3d3d, #000000, #3d3d3d);
+            position: absolute;
+            top: 15vh;
+            border-radius: 3vh;
+            z-index: 3;
+        }
+
+        .brow.left {
+            left: 4vh;
+            transform: rotate(-15deg);
+        }
+
+        .brow.right {
+            right: 4vh;
+            transform: rotate(15deg);
+        }
+
+        .brow-shake {
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateY(0);
+            }
+
+            25% {
+                transform: translateY(-1vh);
+                transform: rotate(-15deg);
+            }
+
+            50% {
+                transform: translateY(1vh);
+            }
+
+            75% {
+                transform: translateY(-1vh);
+                transform: rotate(15deg);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .ear {
+            width: 8vh;
+            height: 12vh;
+            background: #fddbb0;
+            position: absolute;
+            top: 19vh;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .ear-left {
+            left: -4vh;
+        }
+
+        .ear-right {
+            right: -4vh;
+        }
+
+        .nose {
+            width: 4vh;
+            height: 6vh;
+            background: #e0a776;
+            position: absolute;
+            top: 58%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 3vh;
+
+        }
+
+        .mouth {
+            width: 12vh;
+            height: 6vh;
+            background: #a65c4b;
+            position: absolute;
+            bottom: 6vh;
+            left: 40%;
+            transform: translate(-50%);
+            border-radius: 0 0 6vh 6vh;
+        }
+
+        .mouth-surprised {
+            animation: mouthOpen 0.3s ease;
+            background: #c96d5a;
+            border-radius: 6vh 6vh 0 0;
+        }
+
+        @keyframes mouthOpen {
+            0% {
+                transform: scaleY(1);
+            }
+
+            50% {
+                transform: scaleY(1.2);
+            }
+
+            100% {
+                transform: scaleY(1);
+            }
+        }
+
+        .ball {
+            width: 16vh;
+            height: 16vh;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50vw;
+            z-index: 10;
+            background: radial-gradient(circle at 40% 30%, #ffffff, #dbdbdb, #d4d4d4);
+        }
+
+        .table {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10vh;
+            background: darkblue;
+            box-shadow:
+                0 0 0 0.8vh rgba(90, 90, 90, 0.336),
+                0 0 0 1vh #222,
+                /* 模拟二层轮廓 */
+                inset -1.5vh -2vh 0 rgba(39, 16, 16, 0.5);
+            opacity: 0.64;
+        }
+
+        .trail-dot {
+            position: absolute;
+            width: 1vh;
+            height: 1vh;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+
+        .digit-pop {
+            font-family: 'Nixiebold-slim';
+            position: absolute;
+            top: 60vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24vh;
+            color: #ff4d4d;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            text-shadow:
+                0.3vh 0.3vh 0 #fb7c00,
+                /* 压痕阴影 */
+                -0.3vh -0.3vh 0 #fb7c00,
+                /* 高光线条 */
+                0 0 0.6vh rgba(255, 255, 255, 0.3);
+            /* 柔光轮廓 */
+            -webkit-text-fill-color: #ffffff;
+        }
+
+        .digit-pop.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-40px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="headContainer" id="headContainer"></div>
+    <div class="ball" id="ball"></div>
+    <div class="table"></div>
+    <script>
+        const container = document.getElementById("headContainer");
+
+        // 每个角色的五官特征参数（可扩展更多）
+        const headFeatures = [
+            {
+                scale: 1.3,
+                eyeSize: 0.9,     // 小眼睛
+                earSize: 1.8,     // 超大耳朵
+                mouthSize: 0.4,   // 紧闭嘴巴
+                noseSize: 1.5,    // 大鼻头
+                browSize: 0.7,    // 紧缩眉毛
+                hairSize: 1.1     // 扁塌发型
+            },
+            {
+                scale: 1.1,
+                eyeSize: 1.2,     // 超大眼睛
+                earSize: 0.6,     // 小耳朵
+                mouthSize: 1.6,   // 夸张大嘴
+                noseSize: 0.7,    // 小巧鼻子
+                browSize: 1.3,    // 怒眉
+                hairSize: 1     // 蓬松爆炸头
+            },
+            {
+                scale: 0.8,
+                eyeSize: 0.8,     // 鹰眼
+                earSize: 1.0,
+                mouthSize: 0.6,
+                noseSize: 1.0,
+                browSize: 2.0,    // 眉毛特别粗
+                hairSize: 0.8     // 很短发
+            },
+            {
+                scale: 1.2,
+                eyeSize: 0.8,
+                earSize: 0.8,
+                mouthSize: 1.0,   // 超宽大嘴笑脸
+                noseSize: 0.8,
+                browSize: 0.5,    // 几乎没有眉毛
+                hairSize: 1.5     // 巨型头发
+            }
+        ];
+
+
+        // 生成每个角色的 DOM 结构
+        headFeatures.forEach((feature) => {
+            const head = document.createElement("div");
+            head.className = "head";
+            head.style.setProperty("--scale", feature.scale);
+
+            head.innerHTML = `
+                <div class="brow left"></div>
+                <div class="brow right"></div>
+                <div class="hair-left"></div>
+                <div class="hair-right"></div>
+                <div class="eye left">
+                <div class="pupil left">
+                    <div class="pupilw"></div>
+                </div>
+                </div>
+                <div class="eye right">
+                <div class="pupil right">
+                    <div class="pupilw"></div>
+                </div>
+                </div>
+                <div class="ear ear-left"></div>
+                <div class="ear ear-right"></div>
+                <div class="nose"></div>
+                <div class="mouth"></div>
+                <div class="digit-pop"></div>
+            `;
+
+            // 应用各个部件缩放
+            head.querySelectorAll(".eye").forEach(el => {
+                el.style.transform = `scale(${feature.eyeSize})`;
+                el.style.transformOrigin = "center center";
+            });
+
+            head.querySelectorAll(".ear").forEach(el => {
+                el.style.transform = `scale(${feature.earSize})`;
+                el.style.transformOrigin = "center center";
+            });
+
+            head.querySelector(".mouth").style.transform = `scale(${feature.mouthSize})`;
+            head.querySelector(".mouth").style.transformOrigin = "bottom center";
+
+            head.querySelector(".nose").style.transform = `scale(${feature.noseSize})`;
+            head.querySelector(".nose").style.transformOrigin = "center center";
+
+            head.querySelectorAll(".brow").forEach(el => {
+                el.style.transform = `scale(${feature.browSize}) rotate(${feature.browAngle}deg)`;
+
+                el.style.transformOrigin = "bottom center";
+            });
+
+            head.querySelectorAll(".hair-left, .hair-right").forEach(el => {
+                el.style.transform = `scale(${feature.hairSize})`;
+                el.style.transformOrigin = "top center";
+            });
+
+            container.appendChild(head);
+        });
+
+    </script>
+    <script>
+        function drawTrail() {
+            const dot = document.createElement("div");
+            dot.className = "trail-dot";
+
+            const ballRect = ball.getBoundingClientRect();
+            dot.style.left = ballRect.left + ballRect.width / 2 + "px";
+            dot.style.top = ballRect.top + ballRect.height / 2 + "px";
+
+            document.body.appendChild(dot);
+
+            // 自动渐隐并清除
+            setTimeout(() => dot.remove(), 1000);
+        }
+
+        const ball = document.getElementById("ball");
+        const table = document.querySelector(".table");
+
+        let y = 0;
+        let velocity = 0;
+        let horizontalVelocity = 0;
+        const gravity = 0.09;
+        const bounceFactor = 0.9;
+        const ballSize = window.innerHeight * 0.06;
+        const maxVerticalSpeed = 18;
+        const maxHorizontalSpeed = 18;
+
+        let hasMouseAppeared = false;
+        let mouseX = 0;
+        let mouseY = 0;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        let isAttachedToMouse = false;
+        let shockCooldown = false;
+        const minHitSpeed = 8;
+        const maxHitSpeed = 15;
+
+        const minUpHit = 14;       // ✅ 放在这里
+        const maxUpHit = -14;      // ✅ 和其他控制参数统一管理
+
+
+        document.addEventListener("mousemove", (e) => {
+            hasMouseAppeared = true;
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function clamp(val, min, max) {
+            return Math.max(min, Math.min(max, val));
+        }
+
+        function animateBall() {
+            const tableTop = table.getBoundingClientRect().top;
+
+            velocity += gravity;
+            velocity = clamp(velocity, -maxVerticalSpeed, maxVerticalSpeed);
+            y += velocity;
+
+            if (y + ballSize >= tableTop) {
+                y = tableTop - ballSize;
+                velocity *= -bounceFactor;
+            } if (y <= -ballSize * 2) {
+                // 球飞太高就重置或触发某种效果
+                // velocity *= bounceFactor; // 可选
+            }
+
+
+            let currentLeft = parseFloat(ball.style.left);
+            let x = isNaN(currentLeft) ? window.innerWidth / 2 : currentLeft;
+
+            horizontalVelocity = clamp(horizontalVelocity, -maxHorizontalSpeed, maxHorizontalSpeed);
+            x += horizontalVelocity;
+
+            const ballRect = ball.getBoundingClientRect();
+            const distanceToBottom = window.innerHeight - (ballRect.top + ballRect.height / 2);
+            const percent = clamp(distanceToBottom / window.innerHeight, 0, 1);
+            const hitSpeed = minHitSpeed + (maxHitSpeed - minHitSpeed) * percent;
+            const upHit = minUpHit + (maxUpHit - minUpHit) * percent;
+
+            if (x <= 0) {
+                x = 0;
+                horizontalVelocity *= -bounceFactor;
+                horizontalVelocity += hitSpeed;
+                velocity -= upHit;
+            }
+
+            else if (x + ballSize >= window.innerWidth) {
+                x = window.innerWidth - ballSize;
+                horizontalVelocity *= -bounceFactor;
+                horizontalVelocity -= hitSpeed;
+                velocity -= upHit;
+            }
+
+
+
+
+            ball.style.top = `${y}px`;
+            ball.style.left = `${x}px`;
+            drawTrail(); // ✅ 在更新完位置后，记录轨迹点
+            handleMousePhysics();
+            updatePupils();
+            checkHeadReaction();
+
+            requestAnimationFrame(animateBall);
+        }
+
+        function handleMousePhysics() {
+            if (!hasMouseAppeared) return;
+
+            const ballRect = ball.getBoundingClientRect();
+            const ballCenterX = ballRect.left + ballRect.width / 2;
+            const ballCenterY = ballRect.top + ballRect.height / 2;
+
+            const dx = mouseX - ballCenterX;
+            const dy = mouseY - ballCenterY;
+            const distance = Math.hypot(dx, dy);
+
+            const deltaX = mouseX - lastMouseX;
+            const deltaY = mouseY - lastMouseY;
+            const mouseSpeed = Math.hypot(deltaX, deltaY);
+
+            const attractionRadius = 100;
+            const releaseSpeedThreshold = 50;
+
+            if (distance < attractionRadius && !isAttachedToMouse) {
+                const attractStrength = 0.08;
+                const newLeft = ballCenterX + dx * attractStrength;
+                const newTop = ballCenterY + dy * attractStrength;
+
+                ball.style.left = clamp(newLeft, 0, window.innerWidth - ballSize) + "px";
+                ball.style.top = clamp(newTop, 0, window.innerHeight - ballSize) + "px";
+
+                isAttachedToMouse = true;
+            }
+
+            if (isAttachedToMouse && mouseSpeed > releaseSpeedThreshold) {
+                velocity = clamp(deltaY * 0.6, -maxVerticalSpeed, maxVerticalSpeed);
+                horizontalVelocity = clamp(deltaX * 0.6, -maxHorizontalSpeed, maxHorizontalSpeed);
+                isAttachedToMouse = false;
+            }
+        }
+        function updatePupils() {
+            const ballRect = ball.getBoundingClientRect();
+            const ballCenterX = ballRect.left + ballRect.width / 2;
+            const ballCenterY = ballRect.top + ballRect.height / 2;
+
+            const heads = document.querySelectorAll(".head");
+
+            heads.forEach((head) => {
+                const eyes = head.querySelectorAll(".eye");
+
+                eyes.forEach(eye => {
+                    const pupil = eye.querySelector(".pupil");
+                    const eyeRect = eye.getBoundingClientRect();
+
+                    if (!pupil || !eyeRect) return;
+
+                    const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+                    const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+
+                    const dx = ballCenterX - eyeCenterX;
+                    const dy = ballCenterY - eyeCenterY;
+                    const distance = Math.min(3, Math.hypot(dx, dy) / 15);
+
+                    const angle = Math.atan2(dy, dx);
+                    const offsetX = distance * Math.cos(angle) + "vh";
+                    const offsetY = distance * Math.sin(angle) + "vh";
+
+                    pupil.style.transform = `translate(${offsetX}, ${offsetY})`;
+                });
+            });
+
+        }
+
+
+        function checkHeadReaction() {
+            const ballRect = ball.getBoundingClientRect();
+            const heads = document.querySelectorAll(".head");
+
+            heads.forEach((head) => {
+                const headRect = head.getBoundingClientRect();
+                const buffer = 50;
+                const isNearHead =
+                    ballRect.right > headRect.left - buffer &&
+                    ballRect.left < headRect.right + buffer &&
+                    ballRect.bottom > headRect.top - buffer &&
+                    ballRect.top < headRect.bottom + buffer;
+
+                if (isNearHead && !shockCooldown) {
+                    shockCooldown = true;
+                    const index = Array.from(heads).indexOf(head);
+                    const now = new Date();
+                    const digits = (
+                        now.getHours().toString().padStart(2, "0") +
+                        now.getMinutes().toString().padStart(2, "0")
+                    ).split("");
+
+                    const digit = digits[index] || ""; // 如果没对应位则为空字符
+                    triggerShockAnimation(head, digit);
+
+                    setTimeout(() => {
+                        shockCooldown = false;
+                    }, 400);
+                }
+            });
+        }
+
+
+        function triggerShockAnimation(head, digit) {
+            const brows = head.querySelectorAll(".brow");
+            const hairs = head.querySelectorAll(".hair-left, .hair-right");
+            const mouth = head.querySelector(".mouth");
+            const eyes = head.querySelectorAll(".eye");
+            const digitContainer = head.querySelector(".digit-pop");
+
+            // 播放惊讶动画
+            brows.forEach(brow => {
+                brow.classList.add("brow-shake");
+                setTimeout(() => brow.classList.remove("brow-shake"), 300);
+            });
+
+            hairs.forEach(hair => {
+                hair.classList.add("hair-puff");
+                setTimeout(() => hair.classList.remove("hair-puff"), 400);
+            });
+
+            mouth.classList.add("mouth-surprised");
+            setTimeout(() => mouth.classList.remove("mouth-surprised"), 300);
+
+            head.classList.add("head-surprised");
+            setTimeout(() => head.classList.remove("head-surprised"), 400);
+
+            eyes.forEach(eye => {
+                eye.classList.add("eye-crazy");
+                setTimeout(() => eye.classList.remove("eye-crazy"), 300);
+            });
+
+            // ✅ 吐出对应数字（只有触发动画时才执行）
+            digitContainer.textContent = digit;
+            digitContainer.classList.add("show");
+
+            setTimeout(() => {
+                digitContainer.classList.remove("show");
+                digitContainer.textContent = "";
+            }, 6000);
+        }
+
+        function triggerTimeSequence() {
+            const heads = document.querySelectorAll(".head");
+            const now = new Date();
+            const digits = (
+                now.getHours().toString().padStart(2, "0") +
+                now.getMinutes().toString().padStart(2, "0")
+            ).split("");
+
+            digits.forEach((digit, index) => {
+                if (heads[index]) {
+                    triggerShockAnimation(heads[index], digit);
+                }
+            });
+        }
+
+
+        // ... 所有变量定义和函数定义，比如 animateBall(), handleMousePhysics(), updatePupils(), checkHeadReaction()
+
+        window.onload = () => {
+            // 初始化球的位置
+            y = 50;
+            const startX = window.innerWidth - ballSize - 50;
+            ball.style.left = `${startX}px`;
+            ball.style.top = `${y}px`;
+            velocity = 2;
+            horizontalVelocity = -14;
+
+            // 启动动画
+            animateBall();
+
+        };
+
+
+    </script>
+</body>
