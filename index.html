@@ -378,6 +378,32 @@
             opacity: 1;
             transform: translateX(-50%) translateY(-40px);
         }
+
+        .ui-buttons {
+            position: fixed;
+            bottom: 5%;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2vw;
+            z-index: 9;
+            pointer-events: auto;
+        }
+
+        .ui-buttons button {
+            background-color: rgba(19, 14, 92, 0.5);
+            color: #fb7c00;
+            border: none;
+            padding: 1vh 2vh;
+            font-size: 1.5vh;
+            border-radius: 0.5vh;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .ui-buttons button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 
@@ -386,6 +412,9 @@
     <div class="headContainer" id="headContainer"></div>
     <div class="ball" id="ball"></div>
     <div class="table"></div>
+    <div class="ui-buttons">
+        <button id="about-button">aj300</button>
+    </div>
     <script>
         const container = document.getElementById("headContainer");
 
@@ -770,6 +799,9 @@
             animateBall();
 
         };
+        document.getElementById("about-button").addEventListener("click", () => {
+            window.open("https://aj300542.github.io/", "_blank");
+        });
 
 
     </script>
