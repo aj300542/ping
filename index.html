@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>PINGPANGBALL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link id="theme" rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -180,6 +181,16 @@
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
+        window.addEventListener("resize", () => {
+            const ballRect = ball.getBoundingClientRect();
+            const ballWidth = ballRect.width;
+            const maxX = window.innerWidth - ballWidth;
+            const currentLeft = parseFloat(ball.style.left);
+            if (currentLeft > maxX) {
+                ball.style.left = `${maxX}px`;
+            }
+        });
+
 
         function clamp(val, min, max) {
             return Math.max(min, Math.min(max, val));
@@ -400,18 +411,25 @@
         // ... 所有变量定义和函数定义，比如 animateBall(), handleMousePhysics(), updatePupils(), checkHeadReaction()
 
         window.onload = () => {
-            // 初始化球的位置
             y = 50;
-            const startX = window.innerWidth - ballSize - 50;
+
+            // ⚙️ 計算最大水平位置
+            const maxX = window.innerWidth - ballSize;
+
+            // 🏁 初始位置：靠右，保持邊界安全
+            const startX = Math.max(0, maxX - 50); // 靠右邊但留 50px 緩衝
+
+            // ⛳️ 套用初始位置與速度
             ball.style.left = `${startX}px`;
             ball.style.top = `${y}px`;
+
             velocity = 2;
-            horizontalVelocity = -14;
+            horizontalVelocity = -14; // 無論螢幕比例都向左移動
 
-            // 启动动画
+            // 🚀 啟動動畫
             animateBall();
-
         };
+
         document.getElementById("about-button").addEventListener("click", () => {
             window.open("https://aj300542.github.io/", "_blank");
         });
