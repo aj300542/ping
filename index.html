@@ -21,13 +21,18 @@
     <script>
         function toggleStyle() {
             const link = document.getElementById('theme');
-            if (link.getAttribute('href') === 'css/styles.css') {
+            const current = link.getAttribute('href');
+
+            if (current === 'css/styles.css') {
                 link.setAttribute('href', 'css/styles1.css');
+            } else if (current === 'css/styles1.css') {
+                link.setAttribute('href', 'css/styles2.css');
             } else {
                 link.setAttribute('href', 'css/styles.css');
             }
         }
     </script>
+
 
     <script>
         const container = document.getElementById("headContainer");
